@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         maven 'Maven'
-        nodejs 'NodeJs'
+        #nodejs 'NodeJs'
     }
   
     stages {
@@ -22,31 +22,31 @@ pipeline {
             }
         }
         
-        stage('Test'){
-            steps{
-                sh 'mvn clean test -e'
-            }
-        }
+        #stage('Test'){
+        #    steps{
+        #        sh 'mvn clean test -e'
+        #    }
+        #}
         
-        stage('SCA'){
-            steps{
-                sh 'mvn org.owasp:dependency-check-maven:check'
-                
-                archiveArtifacts artifacts: 'target/dependency-check-report.html', followSymlinks: false
-            }
-        }
+        #stage('SCA'){
+        #    steps{
+        #        sh 'mvn org.owasp:dependency-check-maven:check'
+        #        
+        #        archiveArtifacts artifacts: 'target/dependency-check-report.html', followSymlinks: false
+        #    }
+        #}
         
-        stage('Sonarqube'){
-            steps{
-                script{
-                    def scannerHome = tool 'SonarQube Scanner'
-                    
-                    withSonarQubeEnv('Sonar Server'){
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=ms-maven -Dsonar.sources=. -Dsonar.java.binaries=target/classes -Dsonar.exclusions='**/*/test/**/*, **/*/acceptance-test/**/*, **/*.html'"
-                    }
-                }
-            }
-        }
+        #stage('Sonarqube'){
+        #    steps{
+        #        script{
+        #            def scannerHome = tool 'SonarQube Scanner'
+        #            
+        #            withSonarQubeEnv('Sonar Server'){
+        #                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=ms-maven -Dsonar.sources=. -Dsonar.java.binaries=target/classes -Dsonar.exclusions='**/*/test/**/*, **/*/acceptance-test/**/*, **/*.html'"
+        #            }
+        #        }
+        #    }
+        #}
         
     }
     
